@@ -1,0 +1,146 @@
+Index: e-smith-ntp/createlinks
+diff -u e-smith-ntp/createlinks:1.7 e-smith-ntp/createlinks:1.8
+--- e-smith-ntp/createlinks:1.7	Tue Jan 25 16:56:52 2005
++++ e-smith-ntp/createlinks	Tue Mar  8 19:50:07 2005
+@@ -15,13 +15,13 @@
+ 
+ $event = "ip-change";
+ 
+-event_link("restart-ntpd", $event, "90");
++safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/ntpd");
+ 
+ # Configuration template expansion of ntp.conf
+ foreach my $file (
+     qw(/etc/ntp/step-tickers /etc/ntp.conf /var/service/ntpd/env/MEMLIMIT))
+ {
+-    templates2events("/etc/ntp.conf", qw(
++    templates2events($file, qw(
+ 	    timeserver-update
+ 	    bootstrap-console-save
+ 	));
+@@ -33,8 +33,8 @@
+  
+ $event = "timeserver-update";
+ 
+-event_link("restart-ntpd", $event, "90");
+-event_link("restart-syslog", $event, "95");
++safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/ntpd");
++safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/syslog");
+ 
+ #--------------------------------------------------
+ # actions for timezone-update event
+@@ -43,13 +43,12 @@
+ $event = "timezone-update";
+ 
+ event_link("generic_template_expand", $event, "05");
+-event_link("proxy-stop", $event, "05");
+ event_link("conf-timezone", $event, "30");
+ event_link("set-time-date", $event, "40");
+-event_link("restart-httpd-full", $event, "85");
+-event_link("proxy-start", $event, "90");
+-event_link("restart-syslog", $event, "95");
+-event_link("restart-crond", $event, "95");
++safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/crond");
++safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/syslog");
++safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/squid");
++safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+ 
+ #--------------------------------------------------
+ # actions for bootstrap-console-save event
+Index: e-smith-ntp/e-smith-ntp.spec
+diff -u e-smith-ntp/root/etc/e-smith/events/actions/conf-ntpd:1.2 e-smith-ntp/root/etc/e-smith/events/actions/conf-ntpd:removed
+--- e-smith-ntp/root/etc/e-smith/events/actions/conf-ntpd:1.2	Tue Sep 28 17:10:36 2004
++++ e-smith-ntp/root/etc/e-smith/events/actions/conf-ntpd	Wed Dec 31 19:00:00 1969
+@@ -1,39 +0,0 @@
+-#!/usr/bin/perl -w
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 1999-2004 Mitel Networks Corporation
+-# 
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-# 		
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-# 		
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
+-# Technical support for this program is available from Mitel Networks 
+-# Please visit our web site www.mitel.com/sme/ for details.
+-#----------------------------------------------------------------------
+-
+-package esmith;
+-
+-use strict;
+-use esmith::templates;
+-
+-#------------------------------------------------------------
+-# Configure NTP server.
+-#------------------------------------------------------------
+-
+-foreach my $file (
+-    qw(/etc/ntp/step-tickers /etc/ntp.conf /var/service/ntpd/env/MEMLIMIT))
+-{
+-    esmith::templates::processTemplate ({TEMPLATE_PATH => $file});
+-}
+-
+-exit (0);
+Index: e-smith-ntp/root/etc/e-smith/events/actions/restart-ntpd
+diff -u e-smith-ntp/root/etc/e-smith/events/actions/restart-ntpd:1.2 e-smith-ntp/root/etc/e-smith/events/actions/restart-ntpd:removed
+--- e-smith-ntp/root/etc/e-smith/events/actions/restart-ntpd:1.2	Wed Jan 21 16:44:46 2004
++++ e-smith-ntp/root/etc/e-smith/events/actions/restart-ntpd	Wed Dec 31 19:00:00 1969
+@@ -1,48 +0,0 @@
+-#!/usr/bin/perl -w
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 1999-2001 e-smith, inc.
+-#		
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-#		
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+-# GNU General Public License for more details.
+-#		
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
+-# Technical support for this program is available from e-smith, inc.
+-# For details, please visit our web site at www.e-smith.com or
+-# call us on 1 888 ESMITH 1 (US/Canada toll free) or +1 613 564 8000
+-#----------------------------------------------------------------------
+-
+-package esmith;
+-
+-use strict;
+-use Errno;
+-use esmith::config;
+-use esmith::util;
+-use esmith::db;
+-
+-my %conf;
+-tie %conf, 'esmith::config';
+-
+-my $status = db_get_prop(\%conf, "ntpd", "status") || "disabled";
+-
+-my $action = ($status eq "enabled") ? "restart" : "stop";
+-
+-untie %conf;
+-
+-my $init = '/etc/init.d/supervise/ntpd';
+-die "Can't find $init.\n" if not -e $init;
+-
+-system($init, $action) == 0
+-    or die "Attempt to $action ntpd returned non-zero.\n";
+-
+-exit (0);

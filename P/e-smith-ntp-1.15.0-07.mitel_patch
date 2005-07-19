@@ -1,0 +1,33 @@
+Index: e-smith-ntp/e-smith-ntp.spec
+diff -u e-smith-ntp/root/etc/e-smith/db/configuration/defaults/ntpd/MemLimit:1.1 e-smith-ntp/root/etc/e-smith/db/configuration/defaults/ntpd/MemLimit:1.2
+--- e-smith-ntp/root/etc/e-smith/db/configuration/defaults/ntpd/MemLimit:1.1	Thu Mar 31 18:40:12 2005
++++ e-smith-ntp/root/etc/e-smith/db/configuration/defaults/ntpd/MemLimit	Thu Jun 23 19:19:22 2005
+@@ -1 +1 @@
+-4000000
++6000000
+Index: e-smith-ntp/root/etc/e-smith/templates/etc/ntp.conf/30driftfile
+diff -u /dev/null e-smith-ntp/root/etc/e-smith/templates/etc/ntp.conf/30driftfile:1.1
+--- /dev/null	Thu Jun 23 19:19:55 2005
++++ e-smith-ntp/root/etc/e-smith/templates/etc/ntp.conf/30driftfile	Thu Jun 23 19:19:22 2005
+@@ -0,0 +1,3 @@
++{
++    $OUT = "driftfile /etc/ntp/drift";
++}
+Index: e-smith-ntp/root/etc/e-smith/templates/etc/ntp.conf/30other
+diff -u e-smith-ntp/root/etc/e-smith/templates/etc/ntp.conf/30other:1.2 e-smith-ntp/root/etc/e-smith/templates/etc/ntp.conf/30other:removed
+--- e-smith-ntp/root/etc/e-smith/templates/etc/ntp.conf/30other:1.2	Tue Sep 28 18:02:58 2004
++++ e-smith-ntp/root/etc/e-smith/templates/etc/ntp.conf/30other	Wed Dec 31 19:00:00 1969
+@@ -1,6 +0,0 @@
+-{
+-    $OUT .= <<HERE;
+-driftfile /etc/ntp/drift
+-authenticate no
+-HERE
+-}
+Index: e-smith-ntp/root/etc/e-smith/templates/var/service/ntpd/env/MEMLIMIT
+diff -u e-smith-ntp/root/etc/e-smith/templates/var/service/ntpd/env/MEMLIMIT:1.1 e-smith-ntp/root/etc/e-smith/templates/var/service/ntpd/env/MEMLIMIT:1.2
+--- e-smith-ntp/root/etc/e-smith/templates/var/service/ntpd/env/MEMLIMIT:1.1	Tue Sep 28 17:10:36 2004
++++ e-smith-ntp/root/etc/e-smith/templates/var/service/ntpd/env/MEMLIMIT	Thu Jun 23 19:19:22 2005
+@@ -1 +1 @@
+-{ $ntpd{MemLimit} || "4000000" }
++{ $ntpd{MemLimit} || "6000000" }

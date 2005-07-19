@@ -1,0 +1,88 @@
+Index: e-smith-ntp/e-smith-ntp.spec
+diff -u e-smith-ntp/root/etc/e-smith/events/actions/conf-timezone:1.1.1.1 e-smith-ntp/root/etc/e-smith/events/actions/conf-timezone:1.2
+--- e-smith-ntp/root/etc/e-smith/events/actions/conf-timezone:1.1.1.1	Fri Apr  5 14:07:56 2002
++++ e-smith-ntp/root/etc/e-smith/events/actions/conf-timezone	Tue Jul 19 16:00:51 2005
+@@ -26,15 +26,13 @@
+ 
+ use strict;
+ use Errno;
+-use esmith::config;
+-use esmith::util;
+-use esmith::db;
++use esmith::ConfigDB;
++use esmith::templates;
+ 
+-my %conf;
+-tie %conf, 'esmith::config';
++my $db = esmith::ConfigDB->open_ro or die "Could not open config db";
+ 
+ # Obtain the TimeZone configuration database value
+-my $timezone = db_get (\%conf, "TimeZone");
++my $timezone = $db->get("TimeZone");
+ 
+ unless (defined $timezone)
+ {
+@@ -54,7 +52,7 @@
+     }
+     # If all else fails ...
+     $timezone = "US/Eastern" unless defined $timezone;
+-    db_set(\%conf, 'TimeZone', $timezone);
++    $db->new_record('TimeZone')->set_value($timezone);
+ }
+       
+ # Undo the previous symlink and remake it to the correct time zone
+@@ -62,6 +60,6 @@
+ symlink "../usr/share/zoneinfo/$timezone", "/etc/localtime";
+     
+ # Process the template for /etc/sysconfig/clock
+-esmith::util::processTemplate (\%conf, "/etc/sysconfig/clock");
++processTemplate ({TEMPLATE_PATH => "/etc/sysconfig/clock"});
+ 
+ exit (0);
+Index: e-smith-ntp/root/etc/e-smith/templates/etc/ntp/step-tickers/00timeServer
+diff -u e-smith-ntp/root/etc/e-smith/templates/etc/ntp/step-tickers/00timeServer:1.1.1.1 e-smith-ntp/root/etc/e-smith/templates/etc/ntp/step-tickers/00timeServer:1.2
+--- e-smith-ntp/root/etc/e-smith/templates/etc/ntp/step-tickers/00timeServer:1.1.1.1	Fri Apr  5 14:07:56 2002
++++ e-smith-ntp/root/etc/e-smith/templates/etc/ntp/step-tickers/00timeServer	Tue Jul 19 16:00:51 2005
+@@ -1,13 +1,8 @@
+ {
+-    use esmith::config;
+-    use esmith::db;
+-
+-    local $conf{'ntpd'} = $ntpd;
+-
+-    my $NTPenabled = db_get_prop(\%conf, 'ntpd', 'status');
+-    if (defined $NTPenabled && $NTPenabled eq 'enabled')
++    my $NTPenabled = $ntpd{'status'} || 'disabled';
++    if ($NTPenabled eq 'enabled')
+     {
+-	$OUT .= db_get_prop(\%conf, 'ntpd', 'NTPServer');
++	$OUT .= $ntpd{'NTPServer'};
+     }
+     else
+     {
+Index: e-smith-ntp/root/etc/e-smith/templates/etc/sysconfig/clock/30clock
+diff -u e-smith-ntp/root/etc/e-smith/templates/etc/sysconfig/clock/30clock:1.1.1.1 e-smith-ntp/root/etc/e-smith/templates/etc/sysconfig/clock/30clock:1.2
+--- e-smith-ntp/root/etc/e-smith/templates/etc/sysconfig/clock/30clock:1.1.1.1	Fri Apr  5 14:07:56 2002
++++ e-smith-ntp/root/etc/e-smith/templates/etc/sysconfig/clock/30clock	Tue Jul 19 16:00:51 2005
+@@ -1,20 +1,5 @@
+ {
+-    use esmith::config;
+-    use esmith::db;
+-
+-    my %conf;
+-    tie %conf, 'esmith::config';
+-
+-    my $timezone;
+-    if (defined db_get(\%conf, 'TimeZone'))
+-    {
+-	$timezone = db_get(\%conf, 'TimeZone');
+-    }
+-    else
+-    {
+-	$timezone = "US/Eastern";
+-    }
++    my $timezone = $TimeZone || "US/Eastern";
+ 
+     $OUT .= "ZONE=\"$timezone\"";
+-
+ }
