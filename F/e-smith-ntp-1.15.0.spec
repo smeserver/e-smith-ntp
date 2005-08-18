@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.15.0
-%define release 09
+%define release 10
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -16,6 +16,7 @@ Patch4: e-smith-ntp-1.15.0-06.mitel_patch
 Patch5: e-smith-ntp-1.15.0-07.mitel_patch
 Patch6: e-smith-ntp-1.15.0-08.mitel_patch
 Patch7: e-smith-ntp-1.15.0-09.mitel_patch
+Patch8: e-smith-ntp-1.15.0-10.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -26,6 +27,13 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Wed Aug 17 2005 Charlie Brady <charlieb@e-smith.com>
+- [1.15.0-10]
+- Remove /etc/ntp.conf in %pre script, to work around
+  problems with update of ntpd RPM. Add conditional expand-template
+  to run script to be sure that file is regenerated before we need 
+  it. [SF: 1237968]
+
 * Fri Aug 12 2005 Charlie Brady <charlieb@e-smith.com>
 - [1.15.0-09]
 - Open config db r/w to allow property update. [SF: 1216546]
@@ -601,6 +609,7 @@ Configuration files and templates for the NTP daemon.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
@@ -640,6 +649,8 @@ echo "%doc COPYING"          >> %{name}-%{version}-filelist
 rm -rf $RPM_BUILD_ROOT
 
 %pre
+rm -f /etc/ntp.conf
+
 %preun
 %post
 %postun
