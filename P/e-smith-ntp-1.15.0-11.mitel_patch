@@ -1,0 +1,17 @@
+Index: e-smith-ntp/e-smith-ntp.spec
+diff -u e-smith-ntp/root/etc/e-smith/events/actions/conf-timezone:1.3 e-smith-ntp/root/etc/e-smith/events/actions/conf-timezone:1.4
+--- e-smith-ntp/root/etc/e-smith/events/actions/conf-timezone:1.3	Fri Aug 12 16:55:28 2005
++++ e-smith-ntp/root/etc/e-smith/events/actions/conf-timezone	Tue Aug 23 16:36:22 2005
+@@ -31,7 +31,11 @@
+ # Obtain the TimeZone configuration database value
+ my $timezone = $db->get("TimeZone");
+ 
+-unless (defined $timezone)
++if (defined $timezone)
++{
++    $timezone = $timezone->value;
++}
++else
+ {
+     # Initialise timezone from /etc/sysconfig/clock if not already set
+     if (open(CLOCK, "/etc/sysconfig/clock"))
