@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.15.0
-%define release 11
+%define release 12
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -18,6 +18,7 @@ Patch6: e-smith-ntp-1.15.0-08.mitel_patch
 Patch7: e-smith-ntp-1.15.0-09.mitel_patch
 Patch8: e-smith-ntp-1.15.0-10.mitel_patch
 Patch9: e-smith-ntp-1.15.0-11.mitel_patch
+Patch10: e-smith-ntp-1.15.0-12.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -28,6 +29,10 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Wed Aug 31 2005 Charlie Brady <charlieb@e-smith.com>
+- [1.15.0-12]
+- Enforce minimum value of content of env/MEMLIMIT file. [SF: 1270649]
+
 * Tue Aug 23 2005 Charlie Brady <charlieb@e-smith.com>
 - [1.15.0-11]
 - Fix update of /etc/localtime symlink after update via panel. [SF: 1264801]
@@ -616,6 +621,7 @@ Configuration files and templates for the NTP daemon.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
