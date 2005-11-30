@@ -1,24 +1,13 @@
 Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
-%define version 1.15.0
-%define release 12
+%define version 1.15.2
+%define release 02
 Version: %{version}
 Release: %{release}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-ntp-1.15.0-02.mitel_patch
-Patch1: e-smith-ntp-1.15.0-03.mitel_patch
-Patch2: e-smith-ntp-1.15.0-04.mitel_patch
-Patch3: e-smith-ntp-1.15.0-05.mitel_patch
-Patch4: e-smith-ntp-1.15.0-06.mitel_patch
-Patch5: e-smith-ntp-1.15.0-07.mitel_patch
-Patch6: e-smith-ntp-1.15.0-08.mitel_patch
-Patch7: e-smith-ntp-1.15.0-09.mitel_patch
-Patch8: e-smith-ntp-1.15.0-10.mitel_patch
-Patch9: e-smith-ntp-1.15.0-11.mitel_patch
-Patch10: e-smith-ntp-1.15.0-12.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -29,6 +18,25 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 1.15.2-02
+- Bump release number only
+
+* Fri Oct 14 2005 Gordon Rowell <gordonr@e-smith.com>
+- [1.15.2-01]
+- Remove L10Ns from base packages [SF: 1309520]
+
+* Fri Oct 14 2005 Gordon Rowell <gordonr@e-smith.com>
+- [1.15.1-01]
+- New dev stream before relocating L10Ns
+
+* Fri Sep 30 2005 Gordon Rowell <gordonr@e-smith.com>
+- [1.15.0-14]
+- Added Italian L10N - Thanks Filippo Carletti [SF: 1309266]
+
+* Mon Sep 26 2005 Gordon Rowell <gordonr@e-smith.com>
+- [1.15.0-13]
+- Added German L10N - Thanks Dietmar Berteld [SF: 1293325]
+
 * Wed Aug 31 2005 Charlie Brady <charlieb@e-smith.com>
 - [1.15.0-12]
 - Enforce minimum value of content of env/MEMLIMIT file. [SF: 1270649]
@@ -611,17 +619,6 @@ Configuration files and templates for the NTP daemon.
 
 %prep
 %setup
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \

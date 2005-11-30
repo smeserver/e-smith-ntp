@@ -1,7 +1,0 @@
-Index: e-smith-ntp/e-smith-ntp.spec
-diff -u e-smith-ntp/root/etc/e-smith/templates/var/service/ntpd/env/MEMLIMIT:1.2 e-smith-ntp/root/etc/e-smith/templates/var/service/ntpd/env/MEMLIMIT:1.3
---- e-smith-ntp/root/etc/e-smith/templates/var/service/ntpd/env/MEMLIMIT:1.2	Thu Jun 23 19:19:22 2005
-+++ e-smith-ntp/root/etc/e-smith/templates/var/service/ntpd/env/MEMLIMIT	Wed Aug 31 17:27:23 2005
-@@ -1 +1 @@
--{ $ntpd{MemLimit} || "6000000" }
-+{ $OUT = ($ntpd{MemLimit} > "6000000") ? $ntpd{MemLimit} : "6000000" }

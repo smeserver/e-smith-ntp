@@ -1,6 +1,0 @@
-Index: e-smith-ntp/e-smith-ntp.spec
-diff -u /dev/null e-smith-ntp/root/etc/e-smith/db/configuration/defaults/ntpd/MemLimit:1.1
---- /dev/null	Thu Mar 31 18:40:39 2005
-+++ e-smith-ntp/root/etc/e-smith/db/configuration/defaults/ntpd/MemLimit	Thu Mar 31 18:40:12 2005
-@@ -0,0 +1 @@
-+4000000
