@@ -1,8 +1,8 @@
 Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
-%define version 1.15.2
-%define release 02
+%define version 1.16.0
+%define release 01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -18,6 +18,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Wed Mar 15 2006 Charlie Brady <charlie_brady@mitel.com> 1.16.0-01
+- Roll stable stream version. [SME: 1016]
+
 * Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 1.15.2-02
 - Bump release number only
 
