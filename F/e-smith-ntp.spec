@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 01
+%define release 02
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -18,6 +18,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Sat Dec 16 2006 Shad L. Lords <slords@mail.com> 1.16.0-02
+- Bump version so it gets installed on upgrade and forces ntp to be installed.
+
 * Wed Mar 15 2006 Charlie Brady <charlie_brady@mitel.com> 1.16.0-01
 - Roll stable stream version. [SME: 1016]
 
