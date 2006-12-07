@@ -2,13 +2,13 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 02
+%define release 3
 Version: %{version}
-Release: %{release}
+Release: %smerelease %{release}
+Packager: %{_packager}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -18,7 +18,11 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
-* Sat Dec 16 2006 Shad L. Lords <slords@mail.com> 1.16.0-02
+* Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
+- Update to new release naming.  No functional changes.
+- Make Packager generic
+
+* Sat Dec 02 2006 Shad L. Lords <slords@mail.com> 1.16.0-02
 - Bump version so it gets installed on upgrade and forces ntp to be installed.
 
 * Wed Mar 15 2006 Charlie Brady <charlie_brady@mitel.com> 1.16.0-01
