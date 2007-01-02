@@ -2,13 +2,14 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 3
+%define release 4
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch0: e-smith-ntp-1.16.0.HWClockSupport.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -18,6 +19,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Tue Jan  2 2007 Charlie Brady <charlie_brady@mitel.com> 1.16.0-4
+- Add patch from Zac Sprackett to support sync to HW clock. [SME: 1954]
+
 * Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
 - Update to new release naming.  No functional changes.
 - Make Packager generic
@@ -629,6 +633,7 @@ Configuration files and templates for the NTP daemon.
 
 %prep
 %setup
+%patch0 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
