@@ -1,0 +1,98 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ntp-1.16.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/datetime.pm mezzanine_patched_e-smith-ntp-1.16.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/datetime.pm
+--- e-smith-ntp-1.16.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/datetime.pm	2007-01-13 12:42:20.000000000 -0700
++++ mezzanine_patched_e-smith-ntp-1.16.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/datetime.pm	2007-01-13 12:42:00.000000000 -0700
+@@ -601,13 +601,6 @@
+     }
+ 
+     #--------------------------------------------------
+-    # If we get this far, parameters look good and we're ready to go:
+-    #--------------------------------------------------
+-
+-    $q->param(-name => "status_message",
+-	-value => $q->p ( $self->localise('UPDATING_CLOCK')));
+-
+-    #--------------------------------------------------
+     # Store time zone in configuration database
+     #--------------------------------------------------
+ 
+@@ -629,10 +622,10 @@
+     my $newdate = sprintf "%02d%02d%02d%02d%04d.%02d",
+             $month, $day, $hour, $minute, $year, $second;
+ 
+-    esmith::util::backgroundCommand(2, 
+-        "/sbin/e-smith/signal-event","timezone-update",$newdate);
++    system("/sbin/e-smith/signal-event","timezone-update",$newdate) == 0
++        or return $self->error('ERROR');
+ 
+-    return '';
++    return $self->success('UPDATING_CLOCK');
+ }
+ 
+ =pod
+@@ -663,7 +656,7 @@
+ {
+     my $self = shift;
+     my $q = $self->{cgi};
+-    my $msg = $q->param("status_message") || "";
++    my $msg;
+ 
+     #------------------------------------------------------------
+     # Verify the arguments and untaint the variables (see Camel
+@@ -710,10 +703,7 @@
+         }
+         $conf->get('UnsavedChanges')->set_value($old);
+ 
+-
+-        $msg .= $q->h2($self->localise("SERVER_DISABLED"));
+-        $msg .= $q->p($self->localise('SERVER_DISABLED_DESC'));
+-
++        $msg = 'SERVER_DISABLED_DESC';
+     }
+     else    # enable service
+     {   
+@@ -729,10 +719,7 @@
+         }
+         else
+         {
+-            $msg .= $q->h2($self->localise('ERR_CHANGING_TS'));
+-            $msg .= $q->p($self->localise('INVALID_NTP_ADDR').$ntpServer); 
+-	    $q->param(-name => "status_message", -value => $msg);
+-            return '';
++            return $self->error('INVALID_NTP_ADDR');
+         }
+ 
+         #------------------------------------------------------------
+@@ -754,28 +741,18 @@
+         }
+         $conf->get('UnsavedChanges')->set_value($old);
+ 
+-        if ($ntpServer !~ /^\s*$/)
+-        {
+-            $msg .= $q->h2($self->localise('SETTINGS_CHANGED'));
+-            $msg .= $q->p($self->localise('SYNC_WITH').
+-                    $q->b(" ", $ntpServer));
+-        }
+-        else
++        if ($ntpServer =~ /^\s*$/)
+         {
+             $rec->set_prop('status', 'disabled');
+             $rec->set_prop('NTPServer', '');
+-            $msg .= $q->h2($self->localise('ERR_CHANGING_TS'));
+-            $msg .= $q->p($self->localise("INVALID_NTP_SERVER"));
+         }
+-
++        $msg = 'SETTINGS_CHANGED';
+     }    
+ 
+-    $q->param(-name => "status_message", -value => $msg);
+-
+-    esmith::util::backgroundCommand(2, 
+-	"/sbin/e-smith/signal-event", "timeserver-update");
++    system("/sbin/e-smith/signal-event", "timeserver-update") == 0
++        or return $self->error('ERROR');
+ 
+-    return '';
++    return $self->success($msg);
+ }
+ 
+ 1;

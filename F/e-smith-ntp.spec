@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 4
+%define release 5
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,6 +10,7 @@ License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-ntp-1.16.0.HWClockSupport.patch
+Patch1: e-smith-ntp-1.16.0-success.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -19,6 +20,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Sat Jan 13 2007 Shad L. Lords <slords@mail.com> 1.16.0-5
+- Make success/failure messages standard [SME: 2292]
+
 * Tue Jan  2 2007 Charlie Brady <charlie_brady@mitel.com> 1.16.0-4
 - Add patch from Zac Sprackett to support sync to HW clock. [SME: 1954]
 
@@ -634,6 +638,7 @@ Configuration files and templates for the NTP daemon.
 %prep
 %setup
 %patch0 -p1
+%patch1 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
