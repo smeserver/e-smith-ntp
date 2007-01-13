@@ -27,7 +27,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-ntp-1.16.0/root/etc/e-smith/templates/e
 -    if ($server =~ /pool.ntp.org/)
 +    if ($server !~ /^\s*$/)
      {
--       # The 0, 1, 2 prefixes ensure NTP pool round-robin
+-	# The 0, 1, 2 prefixes ensure NTP pool round-robin
 -        $OUT .= "server $_.$server\n" for (0..2);
 -    }
 -    else
