@@ -1,0 +1,15 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ntp-1.16.0/root/etc/e-smith/db/configuration/migrate/30NTPRunDisconnected mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/db/configuration/migrate/30NTPRunDisconnected
+--- e-smith-ntp-1.16.0/root/etc/e-smith/db/configuration/migrate/30NTPRunDisconnected	2007-01-14 10:13:17.000000000 -0700
++++ mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/db/configuration/migrate/30NTPRunDisconnected	2007-01-14 10:12:59.000000000 -0700
+@@ -1,9 +1,9 @@
+ {
+     my $ntpd = $DB->get('ntpd');
+     return unless $ntpd;
+-    return if $ntpd->get_prop('SyncToHWClockSupported');
++    return if $ntpd->prop('SyncToHWClockSupported');
+ 
+-    if ($ntpd->get_prop('status') ne 'enabled')
++    if ($ntpd->prop('status') ne 'enabled')
+     {
+         $ntpd->set_prop('status', 'enabled');
+     }
