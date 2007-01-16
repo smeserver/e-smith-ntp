@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 7
+%define release 8
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,6 +10,7 @@ License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-ntp-1.16.0-success.patch
+Patch1: e-smith-ntp/P/e-smith-ntp-1.16.0-hwsync.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -19,6 +20,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Tue Jan 16 2007 Shad L. Lords <slords@mail.com> 1.16.0-8
+- Rework hwclock sync patch to function properly. [SME: 1954]
+
 * Tue Jan 16 2007 Shad L. Lords <slords@mail.com> 1.16.0-7
 - Remove HWClockSupport needs rework. [SME: 1954]
 - Rework success patch needs delay before signal-event [SME: 2292]
@@ -644,6 +648,7 @@ Configuration files and templates for the NTP daemon.
 %prep
 %setup
 %patch0 -p1
+%patch1 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
