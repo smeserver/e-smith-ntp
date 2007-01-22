@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 8
+%define release 9
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -11,6 +11,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-ntp-1.16.0-success.patch
 Patch1: e-smith-ntp/P/e-smith-ntp-1.16.0-hwsync.patch
+Patch2: e-smith-ntp-1.16.0-memlimit.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -20,6 +21,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Mon Jan 22 2007 Shad L. Lords <slords@mail.com> 1.16.0-9
+- Up memory limit to remove out of memory errors [SME: 2241]
+
 * Tue Jan 16 2007 Shad L. Lords <slords@mail.com> 1.16.0-8
 - Rework hwclock sync patch to function properly. [SME: 1954]
 
@@ -649,6 +653,7 @@ Configuration files and templates for the NTP daemon.
 %setup
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
