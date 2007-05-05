@@ -4,8 +4,7 @@ Name: %{name}
 %define version 1.16.0
 %define release 9
 Version: %{version}
-Release: %smerelease %{release}
-Packager: %{_packager}
+Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
@@ -21,6 +20,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
+- Clean up spec so package can be built by koji/plague
+
 * Mon Jan 22 2007 Shad L. Lords <slords@mail.com> 1.16.0-9
 - Up memory limit to remove out of memory errors [SME: 2241]
 
