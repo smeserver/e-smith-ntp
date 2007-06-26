@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ntp-1.16.0/root/etc/e-smith/web/functions/datetime mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/web/functions/datetime
+--- e-smith-ntp-1.16.0/root/etc/e-smith/web/functions/datetime	2003-04-01 15:41:16.000000000 -0700
++++ mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/web/functions/datetime	2007-06-26 13:50:21.000000000 -0600
+@@ -35,7 +35,7 @@
+ __DATA__
+ <form title="FORM_TITLE" header="/etc/e-smith/web/common/head.tmpl"
+ footer="/etc/e-smith/web/common/foot.tmpl">
+-  <page name="Initial" pre-event="print_status_message()"
++  <page name="First" pre-event="print_status_message()"
+     post-event="performAndShowResult()">
+     <description>INITIAL_DESC</description>
+     <subroutine src="showInitial()"/>

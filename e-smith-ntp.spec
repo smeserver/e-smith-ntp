@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 9
+%define release 10
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -11,6 +11,7 @@ Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-ntp-1.16.0-success.patch
 Patch1: e-smith-ntp/P/e-smith-ntp-1.16.0-hwsync.patch
 Patch2: e-smith-ntp-1.16.0-memlimit.patch
+Patch3: e-smith-ntp-1.16.0-ChangeInitialtoFirstDateTimePanel.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -20,6 +21,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Tue Jun 26 2007 Gavin Weight <gweight@gmail.com> 1.16.0-10
+- Change Initial to First in the Datetime panel. [SME: 3108]
+
 * Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
 - Clean up spec so package can be built by koji/plague
 
@@ -656,6 +660,7 @@ Configuration files and templates for the NTP daemon.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
