@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 10
+%define release 11
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -12,6 +12,7 @@ Patch0: e-smith-ntp-1.16.0-success.patch
 Patch1: e-smith-ntp/P/e-smith-ntp-1.16.0-hwsync.patch
 Patch2: e-smith-ntp-1.16.0-memlimit.patch
 Patch3: e-smith-ntp-1.16.0-ChangeInitialtoFirstDateTimePanel.patch
+Patch4: e-smith-ntp-1.16.0-smeserver.pool.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -21,6 +22,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Sun Jul 08 2007 Stephen Noble <support@dungog.net> 1.16.0-11
+- Change default to smeserver.pool.ntp.org [SME: 1426]
+ 
 * Tue Jun 26 2007 Gavin Weight <gweight@gmail.com> 1.16.0-10
 - Change Initial to First in the Datetime panel. [SME: 3108]
 
@@ -661,6 +665,7 @@ Configuration files and templates for the NTP daemon.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
