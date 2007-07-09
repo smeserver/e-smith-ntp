@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 11
+%define release 12
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -23,7 +23,7 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
-* Sun Jul 08 2007 Stephen Noble <support@dungog.net> 1.16.0-11
+* Sun Jul 08 2007 Stephen Noble <support@dungog.net> 1.16.0-12
 - Migrate pool.ntp.org to smeserver.pool.ntp.org [SME: 1426]
 
 * Sun Jul 08 2007 Stephen Noble <support@dungog.net> 1.16.0-11
