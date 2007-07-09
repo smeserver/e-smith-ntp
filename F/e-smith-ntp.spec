@@ -13,6 +13,7 @@ Patch1: e-smith-ntp/P/e-smith-ntp-1.16.0-hwsync.patch
 Patch2: e-smith-ntp-1.16.0-memlimit.patch
 Patch3: e-smith-ntp-1.16.0-ChangeInitialtoFirstDateTimePanel.patch
 Patch4: e-smith-ntp-1.16.0-smeserver.pool.patch
+Patch5: e-smith-ntp-1.16.0-migratepool.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -22,6 +23,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Sun Jul 08 2007 Stephen Noble <support@dungog.net> 1.16.0-11
+- Migrate pool.ntp.org to smeserver.pool.ntp.org [SME: 1426]
+
 * Sun Jul 08 2007 Stephen Noble <support@dungog.net> 1.16.0-11
 - Change default to smeserver.pool.ntp.org [SME: 1426]
  
@@ -666,6 +670,7 @@ Configuration files and templates for the NTP daemon.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
