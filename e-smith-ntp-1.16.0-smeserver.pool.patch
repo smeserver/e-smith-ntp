@@ -1,0 +1,20 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ntp-1.16.0/root/etc/e-smith/db/configuration/defaults/ntpd/NTPServer mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/db/configuration/defaults/ntpd/NTPServer
+--- e-smith-ntp-1.16.0/root/etc/e-smith/db/configuration/defaults/ntpd/NTPServer	2003-11-07 09:23:21.000000000 -0700
++++ mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/db/configuration/defaults/ntpd/NTPServer	2007-07-08 07:31:07.000000000 -0600
+@@ -1 +1 @@
+-pool.ntp.org
++smeserver.pool.ntp.org
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ntp-1.16.0/root/etc/e-smith/templates/etc/ntp.conf/00timeServer mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/templates/etc/ntp.conf/00timeServer
+--- e-smith-ntp-1.16.0/root/etc/e-smith/templates/etc/ntp.conf/00timeServer	2007-07-08 07:32:09.000000000 -0600
++++ mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/templates/etc/ntp.conf/00timeServer	2007-07-08 07:25:42.000000000 -0600
+@@ -5,8 +5,8 @@
+ 
+     if ($server =~ /pool.ntp.org/)
+     {
+-	# The 0, 1, 2 prefixes ensure NTP pool round-robin
+-        $OUT .= "server $_.$server\n" for (0..2);
++	# The 0, 1, 2, 3 prefixes ensure NTP pool round-robin
++        $OUT .= "server $_.$server\n" for (0..3);
+     }
+     else
+     {
