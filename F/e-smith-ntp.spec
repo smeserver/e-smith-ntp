@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 12
+%define release 13
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -14,6 +14,7 @@ Patch2: e-smith-ntp-1.16.0-memlimit.patch
 Patch3: e-smith-ntp-1.16.0-ChangeInitialtoFirstDateTimePanel.patch
 Patch4: e-smith-ntp-1.16.0-smeserver.pool.patch
 Patch5: e-smith-ntp-1.16.0-migratepool.patch
+Patch6: e-smith-ntp-1.16.0-FixUninitializedValue.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -23,6 +24,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Fri Nov 30 2007 Gavin Weight <gweight@gmail.com> 1.16.0-13
+- Fix use of uninitialized value in 30pool migrate. [SME: 3594]
+
 * Sun Jul 08 2007 Stephen Noble <support@dungog.net> 1.16.0-12
 - Migrate pool.ntp.org to smeserver.pool.ntp.org [SME: 1426]
 
@@ -671,6 +675,7 @@ Configuration files and templates for the NTP daemon.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
