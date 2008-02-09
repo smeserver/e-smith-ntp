@@ -1,0 +1,32 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ntp-1.16.0/root/etc/e-smith/templates/etc/ntp/step-tickers/00timeServer mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/templates/etc/ntp/step-tickers/00timeServer
+--- e-smith-ntp-1.16.0/root/etc/e-smith/templates/etc/ntp/step-tickers/00timeServer	2005-07-19 14:00:51.000000000 -0600
++++ mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/templates/etc/ntp/step-tickers/00timeServer	2008-02-08 10:56:16.000000000 -0700
+@@ -1,8 +1,16 @@
+ {
+     my $NTPenabled = $ntpd{'status'} || 'disabled';
++    my $server = $ntpd{NTPServer} || '';
+     if ($NTPenabled eq 'enabled')
+     {
+-	$OUT .= $ntpd{'NTPServer'};
++        if ($server =~ /pool.ntp.org/)
++        {
++            $OUT .= "0.$server";
++        }
++        else
++        {
++            $OUT .= "$server";
++        }
+     }
+     else
+     {
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ntp-1.16.0/root/var/service/ntpd/run mezzanine_patched_e-smith-ntp-1.16.0/root/var/service/ntpd/run
+--- e-smith-ntp-1.16.0/root/var/service/ntpd/run	2005-08-17 14:16:50.000000000 -0600
++++ mezzanine_patched_e-smith-ntp-1.16.0/root/var/service/ntpd/run	2008-02-08 10:57:05.000000000 -0700
+@@ -28,6 +28,7 @@
+ 
+ # Run ntpdate so we're not way off on startup.
+ ntpstep=/etc/ntp/step-tickers
++/sbin/e-smith/expand-template $ntpstep
+ tickers=`/bin/sed -e 's/\#.*$//g' $ntpstep`
+ /usr/sbin/ntpdate -b -p 8 $tickers
+ 
