@@ -1,0 +1,26 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ntp-1.16.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/datetime mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/datetime
+--- e-smith-ntp-1.16.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/datetime	2003-04-04 07:40:32.000000000 +1000
++++ mezzanine_patched_e-smith-ntp-1.16.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/datetime	2008-02-13 22:29:22.000000000 +1100
+@@ -103,10 +103,6 @@
+       <trans>NTP Server</trans>
+     </entry>
+     <entry>
+-      <base>SAVE</base>
+-      <trans>Save</trans>
+-    </entry>
+-    <entry>
+       <base>VERIFY_DATE_AND_TIME</base>
+       <trans>Verify date and time</trans>
+     </entry>
+@@ -232,11 +228,6 @@
+       <base>CURRENT_SETTING</base>
+       <trans>Current setting</trans>
+     </entry>
+-
+-    <entry>
+-      <base>Configuration</base>
+-      <trans>Configuration</trans>
+-    </entry>
+     <entry>
+       <base>Date and time</base>
+       <trans>Date and time</trans>
