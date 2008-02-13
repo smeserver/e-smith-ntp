@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 15
+%define release 16
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -17,15 +17,20 @@ Patch5: e-smith-ntp-1.16.0-migratepool.patch
 Patch6: e-smith-ntp-1.16.0-FixUninitializedValue.patch
 Patch7: e-smith-ntp-1.16.0-step-ticker.patch
 Patch8: e-smith-ntp-1.16.0-step-ticker.patch2
+Patch9: e-smith-ntp-1.16.0-tags2general.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
+Requires: e-smith-formmagick >= 1.4.0-9
 Requires: e-smith-base
 Requires: ntp
 Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Wed Feb 13 2008 Stephen Noble <support@dungog.net> 1.16.0-16
+- Remove <base> tags now in general [SME: 3923]
+
 * Sat Feb 09 2008 Gavin Weight <gweight@gmail.com> 1.16.0-15
 - Remove the expand-template as set in previous patch, as we already
   expand correct places. [SME: 3868]
@@ -687,6 +692,7 @@ Configuration files and templates for the NTP daemon.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
