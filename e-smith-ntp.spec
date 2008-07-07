@@ -2,7 +2,7 @@ Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 1.16.0
-%define release 16
+%define release 17
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -28,6 +28,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Mon Jul 7 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 1.16.0-17
+- Remove <base> tags now in general [SME: 3923]
+
 * Wed Feb 13 2008 Stephen Noble <support@dungog.net> 1.16.0-16
 - Remove <base> tags now in general [SME: 3923]
 
