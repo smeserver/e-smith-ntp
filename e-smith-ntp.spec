@@ -1,23 +1,15 @@
+# $Id: e-smith-ntp.spec,v 1.8 2008/10/07 18:47:10 slords Exp $
+
 Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
-%define version 1.16.0
-%define release 17
+%define version 2.0.0
+%define release 1
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-ntp-1.16.0-success.patch
-Patch1: e-smith-ntp/P/e-smith-ntp-1.16.0-hwsync.patch
-Patch2: e-smith-ntp-1.16.0-memlimit.patch
-Patch3: e-smith-ntp-1.16.0-ChangeInitialtoFirstDateTimePanel.patch
-Patch4: e-smith-ntp-1.16.0-smeserver.pool.patch
-Patch5: e-smith-ntp-1.16.0-migratepool.patch
-Patch6: e-smith-ntp-1.16.0-FixUninitializedValue.patch
-Patch7: e-smith-ntp-1.16.0-step-ticker.patch
-Patch8: e-smith-ntp-1.16.0-step-ticker.patch2
-Patch9: e-smith-ntp-1.16.0-tags2general.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -28,6 +20,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 2.0.0-1.sme
+- Roll new stream to separate sme7/sme8 trees [SME: 4633]
+
 * Mon Jul 7 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 1.16.0-17
 - Remove <base> tags now in general [SME: 3923]
 
@@ -686,16 +681,6 @@ Configuration files and templates for the NTP daemon.
 
 %prep
 %setup
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
