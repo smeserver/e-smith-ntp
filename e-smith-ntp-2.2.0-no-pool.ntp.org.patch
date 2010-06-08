@@ -1,0 +1,25 @@
+diff -up e-smith-ntp-2.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/datetime.pm.no-pool.ntp.org e-smith-ntp-2.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/datetime.pm
+--- e-smith-ntp-2.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/datetime.pm.no-pool.ntp.org	2008-10-07 19:36:26.000000000 +0200
++++ e-smith-ntp-2.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/datetime.pm	2010-06-08 22:14:39.000000000 +0200
+@@ -704,7 +704,11 @@ sub _performSetTimeserver
+     }
+     else    # enable service and synch with ntpServer
+     {   
+-        if ($ntpServer =~ /^([a-zA-Z0-9\.\-]+)$/)
++        if ($ntpServer eq "pool.ntp.org")
++        {
++            return $self->error('INVALID_NTP_ADDR');
++        }
++        elsif ($ntpServer =~ /^([a-zA-Z0-9\.\-]+)$/)
+         {
+             $ntpServer = $1;
+         }
+@@ -714,7 +718,7 @@ sub _performSetTimeserver
+         }
+         else
+         {
+-            return return $self->error('INVALID_NTP_ADDR');
++            return $self->error('INVALID_NTP_ADDR');
+         }
+ 
+         #------------------------------------------------------------

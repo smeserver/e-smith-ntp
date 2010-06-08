@@ -1,15 +1,16 @@
-# $Id: e-smith-ntp.spec,v 1.8 2008/10/07 18:47:10 slords Exp $
+# $Id: e-smith-ntp.spec,v 1.9 2010/06/08 20:18:10 snetram Exp $
 
 Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 2.2.0
-%define release 1
+%define release 2
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch0: e-smith-ntp-2.2.0-no-pool.ntp.org.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -20,6 +21,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Tue Jun 8 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 2.2.0-2.sme
+- Do not allow pool.ntp.org as NTP server [SME: 5957]
+
 * Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 2.2.0-1.sme
 - Roll new stream to separate sme7/sme8 trees [SME: 4633]
 
@@ -681,6 +685,7 @@ Configuration files and templates for the NTP daemon.
 
 %prep
 %setup
+%patch0 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
