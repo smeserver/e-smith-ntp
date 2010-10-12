@@ -1,4 +1,4 @@
-# $Id: e-smith-ntp.spec,v 1.10 2010/10/12 06:17:08 vip-ire Exp $
+# $Id: e-smith-ntp.spec,v 1.11 2010/10/12 06:20:07 vip-ire Exp $
 
 Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
@@ -23,7 +23,7 @@ AutoReqProv: no
 
 %changelog
 * Tue Oct 12 2010 Daniel Berteaud <daniel@firewall-services.com> 2.2.0-3.sme
-- Support large drifts [SME: 
+- Support large drifts [SME: 5648]
 
 * Tue Jun 8 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 2.2.0-2.sme
 - Do not allow pool.ntp.org as NTP server [SME: 5957]
