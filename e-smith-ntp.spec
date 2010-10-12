@@ -1,16 +1,17 @@
-# $Id: e-smith-ntp.spec,v 1.9 2010/06/08 20:18:10 snetram Exp $
+# $Id: e-smith-ntp.spec,v 1.10 2010/10/12 06:17:08 vip-ire Exp $
 
 Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 2.2.0
-%define release 2
+%define release 3
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-ntp-2.2.0-no-pool.ntp.org.patch
+Patch1: e-smith-ntp-2.2.0-support_large_drifts.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools >= 1.13.1-03
@@ -21,6 +22,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Tue Oct 12 2010 Daniel Berteaud <daniel@firewall-services.com> 2.2.0-3.sme
+- Support large drifts [SME: 
+
 * Tue Jun 8 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 2.2.0-2.sme
 - Do not allow pool.ntp.org as NTP server [SME: 5957]
 
@@ -686,6 +690,7 @@ Configuration files and templates for the NTP daemon.
 %prep
 %setup
 %patch0 -p1
+%patch1 -p1
 
 %build
 for i in ip-change post-install post-upgrade timeserver-update \
