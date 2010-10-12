@@ -1,0 +1,27 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ntp-2.2.0/root/etc/e-smith/templates/etc/ntp.conf/00timeServer mezzanine_patched_e-smith-ntp-2.2.0/root/etc/e-smith/templates/etc/ntp.conf/00timeServer
+--- e-smith-ntp-2.2.0/root/etc/e-smith/templates/etc/ntp.conf/00timeServer	2008-10-07 19:36:26.000000000 +0200
++++ mezzanine_patched_e-smith-ntp-2.2.0/root/etc/e-smith/templates/etc/ntp.conf/00timeServer	2010-10-12 08:01:47.000000000 +0200
+@@ -3,6 +3,10 @@
+     my $server = $ntpd{NTPServer} || '';
+     return "# sync to hw clock" if $server =~ m#^\s*$#;
+ 
++    if ( ($ntpd{'SupportLargeDrift'} || 'disabled') eq 'enabled' ){
++        $OUT .= "tinker panic 0\n";
++    }
++
+     if ($server =~ /pool.ntp.org/)
+     {
+ 	# The 0, 1, 2, 3 prefixes ensure NTP pool round-robin
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ntp-2.2.0/root/etc/e-smith/templates/etc/ntp.conf/10localhost mezzanine_patched_e-smith-ntp-2.2.0/root/etc/e-smith/templates/etc/ntp.conf/10localhost
+--- e-smith-ntp-2.2.0/root/etc/e-smith/templates/etc/ntp.conf/10localhost	2004-09-29 00:08:11.000000000 +0200
++++ mezzanine_patched_e-smith-ntp-2.2.0/root/etc/e-smith/templates/etc/ntp.conf/10localhost	2010-10-12 08:02:50.000000000 +0200
+@@ -1,6 +1,9 @@
+ {
++$OUT = '';
++unless ( ($ntpd{'SupportLargeDrift'} || 'disabled') eq 'enabled' ){
+     $OUT .= <<EOF;
+ server 127.127.1.0 # local clock
+ fudge 127.127.1.0 stratum 10
+ EOF
+ }
++}
