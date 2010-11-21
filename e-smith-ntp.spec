@@ -1,10 +1,10 @@
-# $Id: e-smith-ntp.spec,v 1.11 2010/10/12 06:20:07 vip-ire Exp $
+# $Id: e-smith-ntp.spec,v 1.12 2010/11/21 15:21:50 wellsi Exp $
 
 Summary: e-smith specific NTP configuration files and templates
 %define name e-smith-ntp
 Name: %{name}
 %define version 2.2.0
-%define release 3
+%define release 4
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -22,6 +22,9 @@ Requires: e-smith-lib >= 1.15.1-19
 AutoReqProv: no
 
 %changelog
+* Sun Nov 21 2010 Ian Wells <esmith@wellsi.com> 2.2.0-4.sme
+- SME 8.0 Changelog Cleanup [SME: 6368]
+
 * Tue Oct 12 2010 Daniel Berteaud <daniel@firewall-services.com> 2.2.0-3.sme
 - Support large drifts [SME: 5648]
 
